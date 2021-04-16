@@ -22,9 +22,9 @@ module RegisterFile (
     assign reg2 = registers[src2];
     
 
+    integer i;
     always @(negedge clk, posedge rst) begin
         if (rst) begin
-            integer i;
             for(i=0; i<`REGISTER_FILE_SIZE; i=i+1)
                 registers[i] <= i;
         end

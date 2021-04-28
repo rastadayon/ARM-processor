@@ -1,75 +1,76 @@
 `include "Constants.v"
 
-module ControlUnit (
+module Control_Unit (
     mode,
     opcode,
     s,
     exec_command,
     mem_read,
     mem_write,
-    wb_enable,
+    wb_en,
     branch,
-    status_write_enable
+    status_update_en
 );
     input [`MODE_LEN - 1 : 0] mode;
     input [`OPCODE_LEN - 1 : 0] opcode;
     input s;
     output reg [`EXECUTE_COMMAND_LEN - 1 : 0] exec_command;
-    output reg mem_read, mem_write, wb_enable, branch, status_write_enable;
+    output reg mem_read, mem_write, wb_en, branch, status_update_en;
 
-    assign status_write_enable = s; // not sure about this
+  //  assign status_write_enable = s; // not sure about this
     always @(mode, opcode, s) begin
         mem_read = `ZERO;
         mem_write = `ZERO;
-        wb_enable = `ZERO;
+        wb_en = `ZERO;
         branch = `ZERO;
 
         case (mode)
             `ARITHMETIC_MODE : begin
+		status_update_en = s;
                 case (opcode)
                     `MOV : begin
                         exec_command = `EXEC_MOV;
-                        wb_enable = `ONE;
+                        wb_en = `ONE;
                     end
                     
                     `MVN : begin
                         exec_command = `EXEC_MVN;
-                        wb_enable = `ONE;
+                        wb_en = `ONE;
                     end
 
                     `ADD : begin
                         exec_command = `EXEC_ADD;
-                        wb_enable = `ONE;
+                        wb_en = `ONE;
                     end
 
                     `ADC : begin
                         exec_command = `EXEC_ADC;
-                        wb_enable = `ONE;
+                        wb_en = `ONE;
                     end
 
                     `SUB : begin
                         exec_command = `EXEC_SUB;
-                        wb_enable = `ONE;
+                        wb_en = `ONE;
                     end
 
                     `SBC : begin
                         exec_command = `EXEC_SBC;
-                        wb_enable = `ONE;
+                        wb_en = `ONE;
                     end
 
                     `AND : begin
                         exec_command = `EXEC_AND;
-                        wb_enable = `ONE;
+                        wb_en = `ONE;
                     end
 
                     `ORR : begin
                         exec_command = `EXEC_ORR;
-                        wb_enable = `ONE;
+                        wb_en = `ONE;
                     end
 
                     `EOR : begin
                         exec_command = `EXEC_EOR;
-                        wb_enable = `ONE;
+                        wb_en = `ONE;
                     end
 
                     `CMP : begin
@@ -82,7 +83,7 @@ module ControlUnit (
 
                     `LDR : begin
                         exec_command = `EXEC_LDR;
-                        wb_enable = `ONE;
+                        wb_en = `ONE;
                     end
 
                     `STR : begin
@@ -95,7 +96,7 @@ module ControlUnit (
                 exec_command = `EXEC_MEM;
                 if(s == `ONE) begin //LDR
                     mem_read = `ONE;
-                    wb_enable = `ONE;
+                    wb_en = `ONE;
                 end
                 else if(s == `ZERO) begin //STR
                     mem_write = `ONE;

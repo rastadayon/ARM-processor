@@ -5,14 +5,19 @@
 `define INSTRUCTION_LEN	32
 `define INSTRUCTION_MEM_WORD_LEN 8
 `define INSTRUCTION_MEM_SIZE 256
+// ID Stage:
+`define SHIFT_OPERAND_LEN 12
+`define SIGNED_IMM_LEN 24
+
 // Register File
 `define REGISTER_FILE_ADDRESS_LEN 4
-`define REGISTER_FILE_SIZE 16
+`define REGISTER_FILE_SIZE 15
 `define REGISTER_FILE_LEN 32
 // Control Unit
 `define MODE_LEN 2
 `define OPCODE_LEN 4
 `define EXECUTE_COMMAND_LEN 4
+`define CONTROL_UNIT_OUT_LEN 9
 
 // Architecture Specific Values
 `define ARITHMETIC_MODE 2'b00
@@ -36,6 +41,7 @@
 `define STR 4'b0100 // Store register
 
 // Execution codes
+`define EXEC_COMMAND_LEN 4
 `define EXEC_MOV 4'b0001
 `define EXEC_MVN 4'b1001
 `define EXEC_ADD 4'b0010
@@ -53,4 +59,18 @@
 
 // Condition check
 `define COND_LEN 4
-`define COND_
+`define EQ 4'b0000
+`define NE 4'b0001
+`define CS_HS 4'b0010
+`define CC_LO 4'b0011
+`define MI 4'b0100
+`define PL 4'b0101
+`define VS 4'b0110
+`define VC 4'b0111
+`define HI 4'b1000
+`define LS 4'b1001
+`define GE 4'b1010
+`define LT 4'b1011
+`define GT 4'b1100
+`define LE 4'b1101
+`define AL 4'b1110

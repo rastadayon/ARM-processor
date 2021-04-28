@@ -1,11 +1,11 @@
 `include "Constants.v"
 module Register (
 	clk,
-    	rst,
-    	ld, //load and freeze are opposites in action
-    	clr,
-    	inp,
-    	out
+	rst,
+	ld, //load and freeze are opposites in action
+	clr,
+	inp,
+	out
 );
 parameter n = `ADDRESS_LEN;
 input clk,

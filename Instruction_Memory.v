@@ -18,7 +18,7 @@ initial begin
 end
 
 initial begin 
-        {memory[4], memory[5], memory[6], memory[7]} = 32'b000000_00001_00010_00000_00000000000;
+    {memory[4], memory[5], memory[6], memory[7]} = 32'b000000_00001_00010_00000_00000000000;
 	{memory[8], memory[9], memory[10], memory[11]} = 32'b000000_00011_00100_00000_00000000000;
 	{memory[12], memory[13], memory[14], memory[15]} = 32'b000000_00101_00110_00000_00000000000;
 	{memory[16], memory[17], memory[18], memory[19]} = 32'b000000_00111_01000_00010_00000000000;

@@ -66,6 +66,7 @@ module ID_Stage (
 	assign inst_r_n = instruction[19 : 16];
 	assign inst_r_d = instruction[15 : 12];
 	assign inst_shift = instruction[11 : 0];
+	assign inst_signed_imm = instruction[23 : 0];
 
 	Control_Unit control_unit(
 		.mode(inst_mode),
@@ -104,7 +105,7 @@ module ID_Stage (
 		.reg_2(reg_file_out_2)
 	);
 
-	// Should add hazard
+	// ToDo: Should add hazard
 	assign cu_mux_en = ~cond_check_out | `ONE;
 
 	MUX_2 #(`CONTROL_UNIT_OUT_LEN) cu_mux(
@@ -114,12 +115,12 @@ module ID_Stage (
     	.out(cu_mux_out)
 	);
 
-	assign {exec_cmd_cu_out, mem_read_cu_out, mem_write_cu_out, wb_cu_out, branch_cu_out, status_update_cu_out} = cu_mux_out;
-	assign wb_en_out = wb_cu_out;
-	assign mem_r_en = mem_write_cu_out;
-	assign mem_w_en = mem_read_cu_out;
-	assign b = branch_cu_out;
-	assign s = status_update_cu_out;
+	assign {exec_cmd, mem_r_en, mem_w_en, wb_en_out, b, s} = cu_mux_out;
+	// assign wb_en_out = wb_cu_out;
+	// assign mem_r_en = mem_read_cu_out;
+	// assign mem_w_en = mem_write_cu_out;
+	// assign b = branch_cu_out;
+	// assign s = status_update_cu_out;
     assign imm = inst_i;
 	assign two_src = (~inst_i) | mem_write_cu_out;
 	assign exec_cmd = exec_cmd_cu_out;

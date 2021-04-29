@@ -1,14 +1,15 @@
 `define ONE 1'b1
 `define ZERO 1'b0
 
+// IF Stage:
 `define ADDRESS_LEN	32
 `define INSTRUCTION_LEN	32
 `define INSTRUCTION_MEM_WORD_LEN 8
 `define INSTRUCTION_MEM_SIZE 256
+
 // ID Stage:
 `define SHIFT_OPERAND_LEN 12
 `define SIGNED_IMM_LEN 24
-
 // Register File
 `define REGISTER_FILE_ADDRESS_LEN 4
 `define REGISTER_FILE_SIZE 15
@@ -18,7 +19,6 @@
 `define OPCODE_LEN 4
 `define EXECUTE_COMMAND_LEN 4
 `define CONTROL_UNIT_OUT_LEN 9
-
 // Architecture Specific Values
 `define ARITHMETIC_MODE 2'b00
 `define MEMORY_MODE 2'b01
@@ -39,7 +39,6 @@
 // Memory commands
 `define LDR 4'b0100 // Load register
 `define STR 4'b0100 // Store register
-
 // Execution codes
 `define EXEC_COMMAND_LEN 4
 `define EXEC_MOV 4'b0001
@@ -56,7 +55,6 @@
 `define EXEC_MEM 4'b0010
 `define EXEC_LDR 4'b0010
 `define EXEC_STR 4'b0010
-
 // Condition check
 `define COND_LEN 4
 `define EQ 4'b0000

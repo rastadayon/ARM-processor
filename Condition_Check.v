@@ -8,7 +8,7 @@ module Condition_Check (
     input [`COND_LEN - 1 : 0] condition;
     input [`REGISTER_FILE_ADDRESS_LEN - 1 : 0] status_register;
 
-    output condition_state;
+    output reg condition_state;
 
     wire z, c, n, v;
 
@@ -31,6 +31,7 @@ module Condition_Check (
             `GT : condition_state = ~z & (n & v) | (~n & ~v);
             `LE : condition_state = z | (n & ~v) | (~n & v);
             `AL : condition_state = `ONE;
+        endcase
     end
 
 

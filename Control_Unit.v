@@ -26,7 +26,7 @@ module Control_Unit (
 
         case (mode)
             `ARITHMETIC_MODE : begin
-		status_update_en = s;
+		        status_update_en = s;
                 case (opcode)
                     `MOV : begin
                         exec_command = `EXEC_MOV;

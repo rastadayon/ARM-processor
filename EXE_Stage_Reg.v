@@ -1,7 +1,7 @@
 
 `include "Constants.v"
 
-module EX_Stage_Reg (
+module EXE_Stage_Reg (
     clk,
     rst,
     freeze,

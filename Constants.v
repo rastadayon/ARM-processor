@@ -72,3 +72,6 @@
 `define GT 4'b1100
 `define LE 4'b1101
 `define AL 4'b1110
+
+// Exe Stage:
+`define STATUS_REG_LEN 4

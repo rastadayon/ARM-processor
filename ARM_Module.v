@@ -64,7 +64,7 @@ module ARM_Module(
         .dest(id_stage_dest) 
     );
 
-    EX_Stage_Module ex_stage_module (
+    EXE_Stage_Module ex_stage_module (
         .clk(clk),
         .rst(rst),
         .freeze(freeze),

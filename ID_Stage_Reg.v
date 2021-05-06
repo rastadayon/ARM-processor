@@ -17,6 +17,7 @@ module ID_Stage_Reg (
     shift_operand_in,
     signed_imm_24_in,
     dest_in,
+    status_reg_in,
 
     wb_en_out,
     mem_r_en_out,
@@ -30,7 +31,8 @@ module ID_Stage_Reg (
     imm_out,
     shift_operand_out,
     signed_imm_24_out,
-    dest_out
+    dest_out,
+    status_reg_out
 );
     input clk, rst, flush, wb_en_in, mem_r_en_in, mem_w_en_in, b_in, s_in, imm_in;
     input[`ADDRESS_LEN - 1 : 0] pc_in;
@@ -61,4 +63,5 @@ module ID_Stage_Reg (
     Register #(`SHIFT_OPERAND_LEN) shift_operand_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(flush), .inp(shift_operand_in), .out(shift_operand_out));
     Register #(`SIGNED_IMM_LEN) signed_imm_24_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(flush), .inp(signed_imm_24_in), .out(signed_imm_24_out));
     Register #(`REGISTER_FILE_ADDRESS_LEN) dest_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(flush), .inp(dest_in), .out(dest_out));
+    Register #(`STATUS_REG_LEN) status_reg_value_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(flush), .inp(status_reg_in), .out(status_reg_out));
 endmodule

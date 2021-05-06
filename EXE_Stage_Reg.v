@@ -4,13 +4,21 @@
 module EXE_Stage_Reg (
     clk,
     rst,
-    freeze,
-    pc_in,
-    pc_out
-);
-    input clk, rst, freeze;
-    input[`ADDRESS_LEN - 1 : 0] pc_in;
-    output[`ADDRESS_LEN - 1 : 0] pc_out;
+    flush,
+    wb_en_in,
+    mem_r_en_in,
+    mem_w_en_in,
+    alu_res_in,
+    val_r_m_in,
+    dest_in,
 
-    Register #(`ADDRESS_LEN) pc_reg(.clk(clk), .rst(rst), .ld(~freeze), .clr(flush), .inp(pc_in), .out(pc_out));
+    wb_en_out,
+    mem_r_en_out,
+    mem_w_en_out,
+    alu_res_out,
+    val_r_m_out,
+    dest_out
+);
+    input clk, rst;
+    
 endmodule

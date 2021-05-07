@@ -59,7 +59,6 @@ module ID_Stage_Module (
     assign reg_file_src_1 = id_stage_src_1;
     assign reg_file_src_2 = id_stage_src_2;
 
-    // ToDo: Should add hazard
     ID_Stage id_stage (
         .clk(clk),
         .rst(rst),
@@ -68,7 +67,7 @@ module ID_Stage_Module (
         .wb_result(wb_result),
         .wb_en_in(wb_en_in),
         .wb_dest(wb_dest),
-        .hazard(),
+        .hazard(hazard),
         .status_reg(status_reg_in),
         .wb_en_out(id_stage_wb_en_out),
         .mem_r_en(id_stage_mem_r_en),

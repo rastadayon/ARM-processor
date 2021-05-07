@@ -16,7 +16,6 @@ module EXE_Stage_Module (
     signed_imm_24,
     dest_in,
     status_reg_out,
-    flush,
 
     wb_en_out,
     mem_r_en_out,
@@ -27,7 +26,7 @@ module EXE_Stage_Module (
     status_reg_in,
     branch_addr
 );
-    input clk, rst, wb_en_in, mem_r_en_in, mem_w_en_in, imm, flush;
+    input clk, rst, wb_en_in, mem_r_en_in, mem_w_en_in, imm;
     input[`EXEC_COMMAND_LEN - 1 : 0] exec_cmd;
     input[`ADDRESS_LEN - 1 : 0] pc_in;
     input[`REGISTER_FILE_LEN - 1 : 0] val_r_n, val_r_m_in;
@@ -67,7 +66,6 @@ module EXE_Stage_Module (
     EXE_Stage_Reg exe_stage_reg (
         .clk(clk),
         .rst(rst),
-        .flush(flush),
         .wb_en_in(wb_en_in),
         .mem_r_en_in(mem_r_en_in),
         .mem_w_en_in(mem_w_en_in),

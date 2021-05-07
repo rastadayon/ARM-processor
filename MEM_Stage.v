@@ -3,15 +3,17 @@
 module MEM_Stage (
     clk,
     rst,
-    pc_in,
-    pc_out
+    mem_r_en,
+    mem_w_en,
+    alu_res,
+    val_r_m,
+
+    mem_res
 );
 
-    input clk, rst;
-    input [`ADDRESS_LEN - 1 : 0] pc_in;
-    output[`ADDRESS_LEN - 1 : 0] pc_out;
+    input clk, rst, mem_r_en, mem_w_en;
+    input[`REGISTER_FILE_LEN - 1 : 0] alu_res, val_r_m;
 
-    assign pc_out = pc_in;
-    
+    output[`REGISTER_FILE_LEN - 1 : 0] mem_res;
 
 endmodule

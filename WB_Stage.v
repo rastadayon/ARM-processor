@@ -1,17 +1,16 @@
 `include "Constants.v"
 
 module WB_Stage (
-    clk,
-    rst,
-    pc_in,
-    pc_out
+    mem_r_en,
+    alu_res,
+    mem_res,
+
+    wb_value
 );
 
-    input clk, rst;
-    input [`ADDRESS_LEN - 1 : 0] pc_in;
-    output[`ADDRESS_LEN - 1 : 0] pc_out;
+input mem_r_en;
+input[`REGISTER_FILE_LEN - 1 : 0] alu_res, mem_res;
 
-    assign pc_out = pc_in;
+output[`REGISTER_FILE_LEN - 1 : 0] wb_value;
     
-
 endmodule

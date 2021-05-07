@@ -36,14 +36,13 @@ module EXE_Stage_Module (
     input[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_in;
     input[`STATUS_REG_LEN - 1 : 0] status_reg_out;
 
-    output wb_en_out, mem_r_en_out, mem_w_en_out, branch_taken_out;
+    output wb_en_out, mem_r_en_out, mem_w_en_out;
     output[`REGISTER_FILE_LEN - 1 : 0] alu_res, val_r_m_out;
     output[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_out;
     output[`STATUS_REG_LEN - 1 : 0] status_reg_in;
     output[`ADDRESS_LEN - 1 : 0] branch_addr;
 
-    wire exe_stage_mem_r_en_out, exe_stage_mem_w_en_out;
-    wire[`REGISTER_FILE_LEN - 1 : 0] exe_stage_val_r_m_out, exe_alu_res_out;
+    wire[`REGISTER_FILE_LEN - 1 : 0] exe_alu_res_out;
 
     EXE_Stage ex_stage (
         .clk(clk),
@@ -60,10 +59,7 @@ module EXE_Stage_Module (
         .status_reg_out(status_reg_out),
         .flush(flush),
 
-        .mem_r_en_out(exe_stage_mem_r_en_out),
-        .mem_w_en_out(exe_stage_mem_w_en_out),
         .alu_res(exe_alu_res_out),
-        .val_r_m_out(exe_stage_val_r_m_out),
         .status_reg_in(status_reg_in),
         .branch_addr(branch_addr)
     );
@@ -73,10 +69,10 @@ module EXE_Stage_Module (
         .rst(rst),
         .flush(flush),
         .wb_en_in(wb_en_in),
-        .mem_r_en_in(exe_stage_mem_r_en_out),
-        .mem_w_en_in(exe_stage_mem_w_en_out),
+        .mem_r_en_in(mem_r_en_in),
+        .mem_w_en_in(mem_w_en_in),
         .alu_res_in(exe_alu_res_out),
-        .val_r_m_in(exe_stage_val_r_m_out),
+        .val_r_m_in(val_r_m_in),
         .dest_in(dest_in),
 
         .wb_en_out(wb_en_out),

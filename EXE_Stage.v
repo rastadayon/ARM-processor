@@ -15,10 +15,7 @@ module EXE_Stage (
     status_reg_out,
     flush,
 
-    mem_r_en_out,
-    mem_w_en_out,
     alu_res,
-    val_r_m_out,
     status_reg_in,
     branch_addr
 );
@@ -30,9 +27,36 @@ module EXE_Stage (
     input[`SIGNED_IMM_LEN - 1 : 0] signed_imm_24;
     input[`STATUS_REG_LEN - 1 : 0] status_reg_out;
 
-    output mem_r_en_out, mem_w_en_out;
-    output[`REGISTER_FILE_LEN - 1 : 0] alu_res, val_r_m_out;
+    output[`REGISTER_FILE_LEN - 1 : 0] alu_res;
     output[`STATUS_REG_LEN - 1 : 0] status_reg_in;
     output[`ADDRESS_LEN - 1 : 0] branch_addr;
+
+    wire[`REGISTER_FILE_LEN - 1 : 0] val_2;
+    wire is_mem_related;
+
+    assign is_mem_related = mem_r_en_in | mem_w_en_in;
+
+    ALU alu (
+        .val_1(val_1),
+        .val_2(val_2),
+        .exec_cmd(exec_cmd),
+        .carry_in(status_reg_out[2]),
+        .res(alu_res),
+        .status_reg(status_reg_in)
+    );
+
+    Val_2_Generator val_2_generator (
+        .val_r_m(val_r_m_in),
+        .shift_operand(shift_operand),
+        .imm(imm),
+        .is_mem_related(is_mem_related),
+        .val_2(val_2)
+    );
+
+    Adder branch_adder (
+        .inp1(pc_in),
+        .inp2(signed_imm_24),
+        .out(branch_addr)
+    );
 
 endmodule

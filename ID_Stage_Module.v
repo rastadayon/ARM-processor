@@ -11,6 +11,7 @@ module ID_Stage_Module (
 	wb_en_in,
 	wb_dest,
     status_reg_in,
+    hazard,
     
     wb_en_out,
     mem_r_en,
@@ -30,7 +31,7 @@ module ID_Stage_Module (
     reg_file_src_2,
     status_reg_out
 );
-    input clk, rst, flush, wb_en_in;
+    input clk, rst, flush, wb_en_in, hazard;
     input [`ADDRESS_LEN - 1 : 0] pc_in;
     input [`INSTRUCTION_LEN - 1 : 0] instruction;
     input [`REGISTER_FILE_LEN - 1 : 0] wb_result;
@@ -104,7 +105,7 @@ module ID_Stage_Module (
         .shift_operand_in(id_stage_shift_operand),
         .signed_imm_24_in(id_stage_signed_imm_24),
         .dest_in(id_stage_dest),
-        .status_reg_in(status_reg_in)
+        .status_reg_in(status_reg_in),
 
         .wb_en_out(wb_en_out),
         .mem_r_en_out(mem_r_en),
@@ -118,7 +119,7 @@ module ID_Stage_Module (
         .imm_out(imm),
         .shift_operand_out(shift_operand),
         .signed_imm_24_out(signed_imm_24),
-        .dest_out(dest)  
+        .dest_out(dest),  
         .status_reg_out(status_reg_out)     
     );
 

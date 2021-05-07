@@ -41,6 +41,7 @@ module ID_Stage_Reg (
     input[`SHIFT_OPERAND_LEN - 1 : 0] shift_operand_in;
     input[`SIGNED_IMM_LEN - 1 : 0] signed_imm_24_in;
     input[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_in;
+    input[`STATUS_REG_LEN - 1 : 0] status_reg_in;
 
     output wb_en_out, mem_r_en_out, mem_w_en_out, b_out, s_out, imm_out;
     output[`ADDRESS_LEN - 1 : 0] pc_out;
@@ -49,6 +50,7 @@ module ID_Stage_Reg (
     output[`SHIFT_OPERAND_LEN - 1 : 0] shift_operand_out;
     output[`SIGNED_IMM_LEN - 1 : 0] signed_imm_24_out;
     output[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_out;
+    output[`STATUS_REG_LEN - 1 : 0] status_reg_out;
 
     Register #(`ONE) wb_en_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(flush), .inp(wb_en_in), .out(wb_en_out));
     Register #(`ONE) mem_r_en_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(flush), .inp(mem_r_en_in), .out(mem_r_en_out));

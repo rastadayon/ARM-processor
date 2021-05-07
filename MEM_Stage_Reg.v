@@ -3,13 +3,24 @@
 module MEM_Stage_Reg (
     clk,
     rst,
-    freeze,
-    pc_in,
-    pc_out
-);
-    input clk, rst, freeze;
-    input[`ADDRESS_LEN - 1 : 0] pc_in;
-    output[`ADDRESS_LEN - 1 : 0] pc_out;
+    wb_en_in,
+    mem_r_in,
+    alu_res_in,
+    mem_res_in,
+    dest_in,
 
-    Register #(`ADDRESS_LEN) pc_reg(.clk(clk), .rst(rst), .ld(~freeze), .clr(0), .inp(pc_in), .out(pc_out));
+    wb_en_out,
+    mem_r_out,
+    alu_res_out,
+    mem_res_out,
+    dest_out
+);
+    input clk, rst, wb_en_in, mem_r_in;
+    input[`REGISTER_FILE_LEN - 1 : 0] alu_res_in, mem_res_in;
+    input[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_in;
+
+    output wb_en_out, mem_r_out;
+    output[`REGISTER_FILE_LEN - 1 : 0] alu_res_out, mem_res_out;
+    output[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_out;
+    
 endmodule

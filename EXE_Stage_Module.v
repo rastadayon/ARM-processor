@@ -44,7 +44,7 @@ module EXE_Stage_Module (
 
     wire[`REGISTER_FILE_LEN - 1 : 0] exe_alu_res_out;
 
-    EXE_Stage ex_stage (
+    EXE_Stage exe_stage (
         .clk(clk),
         .rst(rst),
         .mem_r_en_in(mem_r_en_in),
@@ -64,7 +64,7 @@ module EXE_Stage_Module (
         .branch_addr(branch_addr)
     );
 
-    EXE_Stage_Reg ex_stage_reg (
+    EXE_Stage_Reg exe_stage_reg (
         .clk(clk),
         .rst(rst),
         .flush(flush),

@@ -111,7 +111,6 @@ module ARM_Module(
         .signed_imm_24(id_stage_signed_imm_24_out),
         .dest_in(id_stage_dest_out),
         .status_reg_out(id_stage_status_reg_out),
-        .flush(flush),
 
         .wb_en_out(exe_stage_wb_en_out),
         .mem_r_en_out(exe_stage_mem_r_en_out),

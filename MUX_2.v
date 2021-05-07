@@ -6,8 +6,8 @@ module MUX_2 (
 );
 parameter n;
 input sel;
-input [n-1:0]inp1, inp2;
-output [n-1:0]out;
+input[n-1:0] inp1, inp2;
+output[n-1:0] out;
 
 assign out = sel ? inp2 : inp1;
 endmodule

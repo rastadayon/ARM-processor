@@ -82,7 +82,7 @@ module ID_Stage (
 		.status_update_en(status_update_cu_out)
 	);
 
-	MUX_2 #(`REGISTER_FILE_LEN) reg_file_mux(
+	MUX_2 #(`REGISTER_FILE_ADDRESS_LEN) reg_file_mux(
 		.sel(mem_write_cu_out),
     	.inp1(inst_r_m),
     	.inp2(inst_r_d),

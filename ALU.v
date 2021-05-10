@@ -40,39 +40,55 @@ always @(*) begin
         `EXEC_ADD: 
             begin 
                 {carry_out, res_tmp} = val_1 + val_2;
-                if (val_1_sign == val_2_sign & val_1_sign != res_sign) begin
+                if ((val_1_sign == val_2_sign) & (val_1_sign != res_sign)) begin
                     over_flow = `ONE;
                 end
             end
         `EXEC_ADC: 
             begin 
                 {carry_out, res_tmp} = val_1 + val_2 + carry_in;
-                if (val_1_sign == val_2_sign & val_1_sign != res_sign) begin
+                if ((val_1_sign == val_2_sign) & (val_1_sign != res_sign)) begin
                     over_flow = `ONE;
                 end
             end
         `EXEC_SUB: 
             begin 
                 {carry_out, res_tmp} = {val_1_sign, val_1} - {val_2_sign, val_2};
-                if (val_1_sign != val_2_sign & val_1_sign != res_sign) begin
+                if ((val_1_sign != val_2_sign) & (val_1_sign != res_sign)) begin
                     over_flow = `ONE;
                 end
             end
         // ToDo: What is the functionality?
-        `EXEC_SBC:;
+        `EXEC_SBC:
+            begin // functionality is sub w/ carry but we are subtracting 1 regardless.
+                  // not sure ...
+                {carry_out, res_tmp} = {val_1_sign, val_1} - {val_2_sign, val_2} - 33'd1;
+                if ((val_1_sign != val_2_sign) & (val_1_sign != res_sign)) begin
+                    over_flow = `ONE;
+                end
+            end
+        
         `EXEC_AND: res_tmp = val_1 & val_2;
         `EXEC_ORR: res_tmp = val_1 | val_2;
         `EXEC_EOR: res_tmp = val_1 ^ val_2;
         // ToDo: What is the functionality?
-        `EXEC_CMP:;
+        `EXEC_CMP:
+            begin // compare val1 and val2 via subtraction. exactly like EXE_SUB
+                {carry_out, res_tmp} = {val_1_sign, val_1} - {val_2_sign, val_2};
+                if ((val_1_sign != val_2_sign) & (val_1_sign != res_sign)) begin
+                    over_flow = `ONE;
+                end
+            end
+        // ToDo: What is the functionality? 
+        // test compares one register to another via logical add operation
+        `EXEC_TST: res_tmp = val_1 & val_2;
         // ToDo: What is the functionality?
-        `EXEC_TST:;
+        // simply add the values :|
+        `EXEC_LDR: res_tmp = val_1 + val_2;
         // ToDo: What is the functionality?
-        `EXEC_LDR:;
-        // ToDo: What is the functionality?
-        `EXEC_STR:;
-        // ToDo: What is the functionality?
-        default:; 
+        `EXEC_STR: res_tmp = val_1 - val_2;
+
+        default: res_tmp = 32'bx; 
     endcase
     
 end

@@ -27,9 +27,9 @@ module Val_2_Generator (
 
     always @(*) begin
         if(is_mem_related)
-            val_2 = {`REGISTER_FILE_LEN-`SHIFT_OPERAND_LEN'b0, shift_operand};
+            val_2 = {20'b0, shift_operand};
         else if(imm) begin
-            immediate_shifted = {`REGISTER_FILE_LEN - `IMMEDIATE_LEN'b0, shift_operand [`IMMEDIATE_LEN - 1 : 0]};
+            immediate_shifted = {24'b0, shift_operand [`IMMEDIATE_LEN - 1 : 0]};
             for (i = 0; i < {rotate_imm, `ZERO}; i = i + 1) begin
                 immediate_shifted = {immediate_shifted[0], immediate_shifted[`REGISTER_FILE_LEN - 1 : 1]};
             end

@@ -24,7 +24,7 @@ module MEM_Stage_Reg (
     output[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_out;
 
     Register #(`ONE) wb_en_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(), .inp(wb_en_in), .out(wb_en_out));
-    Register #(`ONE) mem_r_en_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(), .inp(mem_r_en_in), .out(mem_r_en_out));
+    Register #(`ONE) mem_r_en_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(), .inp(mem_r_in), .out(mem_r_out));
     Register #(`REGISTER_FILE_LEN) alu_res_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(), .inp(alu_res_in), .out(alu_res_out));
     Register #(`REGISTER_FILE_LEN) mem_res_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(), .inp(mem_res_in), .out(mem_res_out));
     Register #(`REGISTER_FILE_ADDRESS_LEN) dest_reg(.clk(clk), .rst(rst), .ld(`ONE), .clr(), .inp(dest_in), .out(dest_out));

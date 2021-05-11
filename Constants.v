@@ -86,5 +86,5 @@
 
 
 // Mem stage
-`define MEM_SIZE 65536
+`define MEM_SIZE 1054
 `define MEM_WORD_LEN 32

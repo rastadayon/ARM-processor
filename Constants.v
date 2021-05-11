@@ -75,3 +75,11 @@
 
 // Exe Stage:
 `define STATUS_REG_LEN 4
+`define LSL 2'b00 // logical shift left
+`define LSR 2'b01 // logical shift right
+`define ASR 2'b10 // arithmetic shift right
+`define ROR 2'b11 // rotate right
+
+`define ROTATE_IMM_LEN 4
+`define SHIFT_IMM_LEN 5
+`define IMMEDIATE_LEN 8

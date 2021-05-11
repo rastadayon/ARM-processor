@@ -83,3 +83,8 @@
 `define ROTATE_IMM_LEN 4
 `define SHIFT_IMM_LEN 5
 `define IMMEDIATE_LEN 8
+
+
+// Mem stage
+`define MEM_SIZE 65536
+`define MEM_WORD_LEN 32

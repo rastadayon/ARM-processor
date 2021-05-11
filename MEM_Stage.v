@@ -16,4 +16,14 @@ module MEM_Stage (
 
     output[`REGISTER_FILE_LEN - 1 : 0] mem_res;
 
+    Memory memory (
+        .clk(clk), 
+        .rst(rst),
+        .alu_res(alu_res),
+        .val_r_m(val_r_m),
+        .mem_w_en(mem_w_en),
+        .mem_r_en(mem_r_en),
+        .mem_out(mem_res)
+    );
+
 endmodule

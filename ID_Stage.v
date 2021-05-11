@@ -109,7 +109,6 @@ module ID_Stage (
 
 	assign cu_mux_en = ~cond_check_out | hazard;
 
-	// ToDo : Check sel correctness
 	MUX_2 #(`CONTROL_UNIT_OUT_LEN) cu_mux(
 		.sel(cu_mux_en),
     	.inp1({exec_cmd_cu_out, mem_read_cu_out, mem_write_cu_out, wb_cu_out, branch_cu_out, status_update_cu_out}),

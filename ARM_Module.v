@@ -87,6 +87,7 @@ module ARM_Module(
     Hazard_Detection hazard_detection_unit (
         .two_src(id_stage_two_src_out),
         .r_n(if_stage_r_n),
+        .r_d(id_stage_src_2_out),
         .mem_dest(exe_stage_dest_out),
         .mem_wb_en(exe_stage_wb_en_out),
         .exe_dest(id_stage_dest_out),
@@ -95,7 +96,6 @@ module ARM_Module(
         .hazard(hazard)
     );
 
-    // ToDo: pc_out? flush?
     EXE_Stage_Module ex_stage_module (
         .clk(clk),
         .rst(rst),
@@ -122,12 +122,11 @@ module ARM_Module(
         .branch_addr(exe_branch_addr_out)
     );
 
-    // ToDo: Clr?
     Register #(`STATUS_REG_LEN) status_register (
         .clk(~clk), 
         .rst(rst), 
         .ld(id_stage_s_out), 
-        .clr(flush), 
+        .clr(), 
         .inp(exe_status_reg_out), 
 
         .out(status_register_out)

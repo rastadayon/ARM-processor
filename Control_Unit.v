@@ -24,6 +24,8 @@ module Control_Unit (
         wb_en = `ZERO;
         branch = `ZERO;
 
+        $display("mode=%d", mode);
+
         case (mode)
             `ARITHMETIC_MODE : begin
 		        status_update_en = s;
@@ -105,6 +107,7 @@ module Control_Unit (
 
             `BRANCH_MODE : begin
                 branch = `ONE;
+                $display("branch=%d", branch);
             end 
         endcase
     end

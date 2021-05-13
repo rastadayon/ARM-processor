@@ -55,7 +55,7 @@ module EXE_Stage (
 
     Adder branch_adder (
         .inp1(pc_in),
-        .inp2({{(8){signed_imm_24[`SIGNED_IMM_LEN-1]}}, signed_imm_24}),
+        .inp2({{(6){signed_imm_24[`SIGNED_IMM_LEN-1]}}, signed_imm_24, 2'b0}),
         .out(branch_addr)
     );
 

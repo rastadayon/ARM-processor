@@ -22,7 +22,7 @@
 // Architecture Specific Values
 `define ARITHMETIC_MODE 2'b00
 `define MEMORY_MODE 2'b01
-`define BRANCH_MODE 2'b01
+`define BRANCH_MODE 2'b10
 // Arithmetic commands
 `define NOP 4'b0000 // No operation
 `define MOV 4'b1101 // Move

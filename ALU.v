@@ -76,6 +76,15 @@ always @(*) begin
                 if ((val_1_sign != val_2_sign) & (val_1_sign != res_sign)) begin
                     over_flow = `ONE;
                 end
+                $display("carry_out=%d", carry_out);
+                $display("over_flow=%d", over_flow);
+                $display("res_tmp=%b", res_tmp);
+                $display("val_1_sign=%d", val_1_sign);
+                $display("val_2_sign=%d", val_2_sign);
+                $display("res_sign=%d", res_sign);
+                $display("is_negative=%d", is_negative);
+                $display("is_zero=%d", is_zero);
+
             end
         // test compares one register to another via logical add operation
         `EXEC_TST: res_tmp = val_1 & val_2;

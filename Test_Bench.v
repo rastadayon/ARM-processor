@@ -11,7 +11,7 @@ module Test_Bench ();
     initial begin 
         #(CLK) rst = 1;
         #(3*CLK) rst = 0;
-        #(313*CLK)
+        #(1000*CLK)
         $stop;
     end
 

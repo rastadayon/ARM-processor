@@ -31,6 +31,8 @@ module EXE_Stage (
     output[`STATUS_REG_LEN - 1 : 0] status_reg_in;
     output[`ADDRESS_LEN - 1 : 0] branch_addr;
 
+    wire [`ADDRESS_LEN - 1 : 0] test_branch;
+
     wire[`REGISTER_FILE_LEN - 1 : 0] val_2;
     wire is_mem_related;
 
@@ -58,5 +60,18 @@ module EXE_Stage (
         .inp2({{(6){signed_imm_24[`SIGNED_IMM_LEN-1]}}, signed_imm_24, 2'b0}),
         .out(branch_addr)
     );
+
+    // Adder branch_adder (
+    //     .inp1(pc_in),
+    //     .inp2({{(6){signed_imm_24[`SIGNED_IMM_LEN-1]}}, signed_imm_24, 2'b0}),
+    //     .out(test_branch)
+    // );
+
+    // Adder test (
+    //     .inp1(test_branch),
+    //     .inp2(32'd4),
+    //     .out(branch_addr)
+    // );
+
 
 endmodule

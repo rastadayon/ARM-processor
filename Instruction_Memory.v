@@ -27,7 +27,7 @@ initial begin
 	{memory[24], memory[25], memory[26], memory[27]} = 32'b1110_00_0_0110_0_0000_0110_000010100000; //SBC    R6 ,R0,R0,LSR #1  //R6 = 9
 	{memory[28], memory[29], memory[30], memory[31]} = 32'b1110_00_0_1100_0_0101_0111_000101000010; //ORR    R7 ,R5,R2,ASR #2  //R7 = -123
 	{memory[32], memory[33], memory[34], memory[35]} = 32'b1110_00_0_0000_0_0111_1000_000000000011; //AND    R8 ,R7,R3   //R8 = -2147483648
-	{memory[36], memory[37], memory[38], memory[39]} = 32'b1110_00_0_1111_0_0000_1001_000000000110; //MVN    R9 ,R6    //R9 = -11 ?? we get -10
+	{memory[36], memory[37], memory[38], memory[39]} = 32'b1110_00_0_1111_0_0000_1001_000000000110; //MVN    R9 ,R6    //R9 = -10
 
 	{memory[40], memory[41], memory[42], memory[43]} = 32'b1110_00_0_0001_0_0100_1010_000000000101; //EOR    R10,R4,R5  //R10 = -84
 	{memory[44], memory[45], memory[46], memory[47]} = 32'b1110_00_0_1010_1_1000_0000_000000000110; //CMP    R8 ,R6 ?? how to make sure it is working correctly?

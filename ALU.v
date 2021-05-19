@@ -61,7 +61,7 @@ always @(*) begin
         `EXEC_SBC:
             begin // functionality is sub w/ carry but we are subtracting 1 regardless.
                   // not sure ...
-                {carry_out, res_tmp} = {val_1_sign, val_1} - {val_2_sign, val_2} - 33'd1;
+                {carry_out, res_tmp} = {val_1_sign, val_1} - {val_2_sign, val_2} - 32'd1;
                 if ((val_1_sign != val_2_sign) & (val_1_sign != res_sign)) begin
                     over_flow = `ONE;
                 end

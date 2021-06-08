@@ -2,10 +2,11 @@
 
 module ARM_Module(
 	clk, 
-	rst
+	rst,
+    forwarding_enable
 );
 
-    input clk, rst;
+    input clk, rst, forwarding_enable;
 
     // IF Stage out wires :
     wire flush, freeze;
@@ -39,8 +40,13 @@ module ARM_Module(
     assign if_stage_r_n = if_stage_instruction_out[19 : 16];
     assign freeze = hazard;
 
+    // Forwarding out wires :
+    wire[1 : 0] src1_select, src2_select;
+
     // WB Stage out wires :
     wire[`REGISTER_FILE_LEN - 1 : 0] wb_value;
+    wire wb_stage_wb_en_out;
+    wire[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] wb_stage_dest_out;
 
     IF_Stage_Module if_stage_module(
 	    .clk(clk),
@@ -85,6 +91,7 @@ module ARM_Module(
     );
 
     Hazard_Detection hazard_detection_unit (
+        .forwarding_enable(forwarding_enable),
         .two_src(id_stage_two_src_out),
         .r_n(if_stage_r_n),
         .r_d(id_stage_src_2_out),
@@ -94,6 +101,18 @@ module ARM_Module(
         .exe_wb_en(id_stage_wb_en_out),
 
         .hazard(hazard)
+    );
+
+    Forwarding_Unit forwarding_unit (
+        .forwarding_enable(forwarding_enable),
+        .src1(id_stage_src_1_out),
+        .src2(id_stage_src_2_out),
+        .mem_dest(exe_stage_dest_out),
+        .wb_dest(wb_stage_dest_out),
+        .mem_wb_en(exe_stage_wb_en_out),
+        .wb_wb_en(mem_stage_wb_en_out),
+        .src1_select(src1_select),
+        .src2_select(src2_select)
     );
 
     EXE_Stage_Module ex_stage_module (
@@ -111,6 +130,12 @@ module ARM_Module(
         .signed_imm_24(id_stage_signed_imm_24_out),
         .dest_in(id_stage_dest_out),
         .status_reg_out(id_stage_status_reg_out),
+
+        .sel_src1(src1_select),
+        .sel_src2(src2_select),
+        .mem_wb_val(exe_alu_res_out),
+        .wb_wb_val(wb_value),
+
 
         .wb_en_out(exe_stage_wb_en_out),
         .mem_r_en_out(exe_stage_mem_r_en_out),
@@ -153,8 +178,12 @@ module ARM_Module(
         .mem_r_en(mem_stage_mem_r_en_out),
         .alu_res(mem_stage_alu_res_out),
         .mem_res(mem_stage_mem_res_out),
+        .wb_enable(mem_stage_wb_en_out),
+        .dest(mem_stage_dest_out),
 
-        .wb_value(wb_value)
+        .wb_value(wb_value),
+        .wb_enable_out(wb_stage_wb_en_out),
+        .wb_dest_out(wb_stage_dest_out)
     );
 
-endmodule;
+endmodule

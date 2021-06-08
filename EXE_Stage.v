@@ -15,9 +15,15 @@ module EXE_Stage (
     status_reg_out,
     flush,
 
+    alu_src1_mux_sel,
+    alu_src2_mux_sel,
+    mem_wb_val,
+    wb_wb_val,
+
     alu_res,
     status_reg_in,
-    branch_addr
+    branch_addr,
+    val_r_m
 );
     input clk, rst, mem_r_en_in, mem_w_en_in, imm, flush;
     input[`EXEC_COMMAND_LEN - 1 : 0] exec_cmd;
@@ -27,19 +33,41 @@ module EXE_Stage (
     input[`SIGNED_IMM_LEN - 1 : 0] signed_imm_24;
     input[`STATUS_REG_LEN - 1 : 0] status_reg_out;
 
+    input[1 : 0] alu_src1_mux_sel, alu_src2_mux_sel;
+    input[`REGISTER_FILE_LEN - 1 : 0] mem_wb_val, wb_wb_val;
+
     output[`REGISTER_FILE_LEN - 1 : 0] alu_res;
     output[`STATUS_REG_LEN - 1 : 0] status_reg_in;
     output[`ADDRESS_LEN - 1 : 0] branch_addr;
+    output[`REGISTER_FILE_LEN - 1 : 0] val_r_m;
 
     wire [`ADDRESS_LEN - 1 : 0] test_branch;
 
     wire[`REGISTER_FILE_LEN - 1 : 0] val_2;
     wire is_mem_related;
 
+    wire[`REGISTER_FILE_LEN - 1 : 0] alu_mux_src1, alu_mux_src2;
+
     assign is_mem_related = mem_r_en_in | mem_w_en_in;
 
+    MUX_3 #(`REGISTER_FILE_LEN) alu_src1_mux (
+        .inp1(val_1),
+        .inp2(mem_wb_val),
+        .inp3(wb_wb_val),
+        .sel(alu_src1_mux_sel),
+        .out(alu_mux_src1)
+    );
+
+    MUX_3 #(`REGISTER_FILE_LEN) alu_src2_mux (
+        .inp1(val_r_m_in),
+        .inp2(mem_wb_val),
+        .inp3(wb_wb_val),
+        .sel(alu_src2_mux_sel),
+        .out(alu_mux_src2)
+    );
+
     ALU alu (
-        .val_1(val_1),
+        .val_1(alu_mux_src1),
         .val_2(val_2),
         .exec_cmd(exec_cmd),
         .carry_in(status_reg_out[2]),
@@ -48,7 +76,7 @@ module EXE_Stage (
     );
 
     Val_2_Generator val_2_generator (
-        .val_r_m(val_r_m_in),
+        .val_r_m(alu_mux_src2),
         .shift_operand(shift_operand),
         .imm(imm),
         .is_mem_related(is_mem_related),

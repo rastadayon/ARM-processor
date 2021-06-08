@@ -88,3 +88,8 @@
 // Mem stage
 `define MEM_SIZE 1054
 `define MEM_WORD_LEN 32
+
+//Forwarding
+`define FORWARDING_MEM_SELECT 2'b01
+`define FORWARDING_WB_SELECT 2'b10
+`define FORWARDING_NON_SELECT 2'b00

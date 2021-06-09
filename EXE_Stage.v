@@ -1,4 +1,5 @@
 `include "Constants.v"
+`timescale 1ns/1ns
 
 module EXE_Stage (
     clk,

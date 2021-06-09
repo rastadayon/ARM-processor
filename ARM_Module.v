@@ -1,12 +1,24 @@
 `include "Constants.v"
+`timescale 1ns/1ns
 
 module ARM_Module(
 	clk, 
 	rst,
-    forwarding_enable
+    forwarding_enable,
+    SRAM_DQ,
+    SRAM_ADDR,
+    SRAM_UB_N,              
+    SRAM_LB_N,             
+    SRAM_WE_N,      
+    SRAM_CE_N,     
+    SRAM_OE_N    
 );
 
     input clk, rst, forwarding_enable;
+    output SRAM_UB_N, SRAM_LB_N, SRAM_WE_N, SRAM_CE_N, SRAM_OE_N;
+    output [`SRAM_ADDR_LEN-1:0] SRAM_ADDR;
+    
+    inout[`SRAM_DATA_LEN-1:0] SRAM_DQ;
 
     // IF Stage out wires :
     wire flush, freeze;
@@ -35,6 +47,7 @@ module ARM_Module(
     wire mem_stage_mem_r_en_out, mem_stage_wb_en_out;
     wire[`REGISTER_FILE_LEN - 1 : 0] mem_stage_alu_res_out, mem_stage_mem_res_out;
     wire[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] mem_stage_dest_out;
+    wire mem_ready;
 
     assign flush = id_stage_b_out;
     assign if_stage_r_n = if_stage_instruction_out[19 : 16];
@@ -51,7 +64,7 @@ module ARM_Module(
     IF_Stage_Module if_stage_module(
 	    .clk(clk),
 	    .rst(rst),
-	    .freeze(freeze),
+	    .freeze(freeze|~mem_ready),
 	    .flush(flush),
 	    .branch_taken(id_stage_b_out),
 	    .branch_addr(exe_branch_addr_out),
@@ -62,6 +75,7 @@ module ARM_Module(
     ID_Stage_Module id_stage_module (
         .clk(clk),
         .rst(rst),
+        .freeze(~mem_ready),
         .flush(flush),
         .pc_in(if_stage_pc_out),
         .instruction(if_stage_instruction_out),
@@ -118,6 +132,7 @@ module ARM_Module(
     EXE_Stage_Module ex_stage_module (
         .clk(clk),
         .rst(rst),
+        .freeze(~mem_ready),
         .wb_en_in(id_stage_wb_en_out),
         .mem_r_en_in(id_stage_mem_r_en_out),
         .mem_w_en_in(id_stage_mem_w_en_out),
@@ -160,6 +175,7 @@ module ARM_Module(
     MEM_Stage_Module mem_stage_module (
         .clk(clk),
         .rst(rst),
+        .freeze(~mem_ready),
         .wb_en_in(exe_stage_wb_en_out),
         .mem_r_en_in(exe_stage_mem_r_en_out),
         .mem_w_en(exe_stage_mem_w_en_out),
@@ -171,7 +187,15 @@ module ARM_Module(
         .mem_r_en_out(mem_stage_mem_r_en_out),
         .alu_res_out(mem_stage_alu_res_out),
         .mem_res(mem_stage_mem_res_out),
-        .dest_out(mem_stage_dest_out)
+        .dest_out(mem_stage_dest_out),
+        .ready(mem_ready),
+        .SRAM_DQ(SRAM_DQ),
+        .SRAM_ADDR(SRAM_ADDR),
+        .SRAM_UB_N(SRAM_UB_N),              
+        .SRAM_LB_N(SRAM_LB_N),             
+        .SRAM_WE_N(SRAM_WE_N),      
+        .SRAM_CE_N(SRAM_CE_N),     
+        .SRAM_OE_N(SRAM_OE_N) 
     );
 
     WB_Stage wb_stage (

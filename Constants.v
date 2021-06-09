@@ -89,6 +89,21 @@
 `define MEM_SIZE 1054
 `define MEM_WORD_LEN 32
 
+// SRAM
+`define SRAM_ADDR_LEN 16
+`define SRAM_DATA_LEN 32
+`define SRAM_SIZE 512
+`define LOW_ACTIVE 0
+
+`define IDLE_STATE 0
+`define START_WRITE_STATE 1
+`define START_READ_STATE 2
+`define WAITING_1 3
+`define WAITING_2 4
+`define WAITING_3 5
+`define END_WRITE_STATE 6
+`define END_READ_STATE 7
+
 //Forwarding
 `define FORWARDING_MEM_SELECT 2'b01
 `define FORWARDING_WB_SELECT 2'b10

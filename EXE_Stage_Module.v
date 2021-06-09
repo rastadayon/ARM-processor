@@ -1,9 +1,11 @@
 
 `include "Constants.v"
+`timescale 1ns/1ns
 
 module EXE_Stage_Module (
     clk,
     rst,
+    freeze,
     wb_en_in,
     mem_r_en_in,
     mem_w_en_in,
@@ -31,7 +33,7 @@ module EXE_Stage_Module (
     status_reg_in,
     branch_addr
 );
-    input clk, rst, wb_en_in, mem_r_en_in, mem_w_en_in, imm;
+    input clk, rst, wb_en_in, mem_r_en_in, mem_w_en_in, imm, freeze;
     input[`EXEC_COMMAND_LEN - 1 : 0] exec_cmd;
     input[`ADDRESS_LEN - 1 : 0] pc_in;
     input[`REGISTER_FILE_LEN - 1 : 0] val_r_n, val_r_m_in, mem_wb_val, wb_wb_val;
@@ -79,6 +81,7 @@ module EXE_Stage_Module (
     EXE_Stage_Reg exe_stage_reg (
         .clk(clk),
         .rst(rst),
+        .freeze(freeze),
         .wb_en_in(wb_en_in),
         .mem_r_en_in(mem_r_en_in),
         .mem_w_en_in(mem_w_en_in),

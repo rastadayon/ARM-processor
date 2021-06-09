@@ -1,9 +1,11 @@
 
 `include "Constants.v"
+`timescale 1ns/1ns
 
 module ID_Stage_Module (
     clk,
     rst,
+    freeze,
     flush,
     pc_in,
     instruction,
@@ -31,7 +33,7 @@ module ID_Stage_Module (
     reg_file_src_2,
     status_reg_out
 );
-    input clk, rst, flush, wb_en_in, hazard;
+    input clk, rst, flush, wb_en_in, hazard, freeze;
     input [`ADDRESS_LEN - 1 : 0] pc_in;
     input [`INSTRUCTION_LEN - 1 : 0] instruction;
     input [`REGISTER_FILE_LEN - 1 : 0] wb_result;
@@ -90,6 +92,7 @@ module ID_Stage_Module (
     ID_Stage_Reg id_stage_reg (
         .rst(rst),
         .clk(clk),
+        .freeze(freeze),
         .flush(flush),
         .wb_en_in(id_stage_wb_en_out),
         .mem_r_en_in(id_stage_mem_r_en),

@@ -91,6 +91,7 @@ module Control_Unit (
 
                     `STR : begin
                         exec_command = `EXEC_STR;
+                        wb_en = `ZERO;
                     end
                 endcase
             end  
@@ -103,6 +104,7 @@ module Control_Unit (
                 end
                 else if(s == `ZERO) begin //STR
                     mem_write = `ONE;
+                    wb_en = `ZERO;
                 end
             end
 

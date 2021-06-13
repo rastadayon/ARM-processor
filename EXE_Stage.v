@@ -50,6 +50,7 @@ module EXE_Stage (
     wire[`REGISTER_FILE_LEN - 1 : 0] alu_mux_src1, alu_mux_src2;
 
     assign is_mem_related = mem_r_en_in | mem_w_en_in;
+    assign val_r_m = alu_mux_src2;
 
     MUX_3 #(`REGISTER_FILE_LEN) alu_src1_mux (
         .inp1(val_1),

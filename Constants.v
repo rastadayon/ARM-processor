@@ -90,7 +90,7 @@
 `define MEM_WORD_LEN 32
 
 // SRAM
-`define SRAM_ADDR_LEN 16
+`define SRAM_ADDR_LEN 17
 `define SRAM_DATA_LEN 32
 `define SRAM_SIZE 512
 `define LOW_ACTIVE 0

@@ -13,7 +13,7 @@ module SRAM (
     input[`SRAM_ADDR_LEN-1:0] sram_addr;
     inout[`SRAM_DATA_LEN-1:0] sram_dq;
 
-    reg [`SRAM_ADDR_LEN-1:0] memory[0:`SRAM_SIZE-1];
+    reg [`SRAM_DATA_LEN-1:0] memory[0:`SRAM_SIZE-1];
 
     assign #30 sram_dq = sram_we_en ? memory[sram_addr]: `SRAM_DATA_LEN'bz;
 

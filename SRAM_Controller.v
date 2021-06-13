@@ -33,8 +33,6 @@ module SRAM_Controller(
     reg [2:0] ps, ns;
     reg waiting_for_write;
     reg waiting_for_read;
-    reg[`REGISTER_FILE_LEN-1:0] write_data_reg;
-    reg[`ADDRESS_LEN-1:0] address_reg;
     reg[`SRAM_DATA_LEN-1:0] SRAM_DQ_reg;
 
     assign SRAM_UB_N = `LOW_ACTIVE;
@@ -42,8 +40,6 @@ module SRAM_Controller(
     assign SRAM_CE_N = `LOW_ACTIVE;
     assign SRAM_OE_N = `LOW_ACTIVE;
     assign SRAM_DQ = waiting_for_write ? SRAM_DQ_reg: `SRAM_DATA_LEN'bz;
-    // assign ready = ps  
-
     assign ready = (rst == `ONE)? `ONE: 
         (
             ((ps == `IDLE_STATE) && (read_en == `ONE || write_en == `ONE)) ? `ZERO
@@ -69,48 +65,39 @@ module SRAM_Controller(
                 SRAM_WE_N <= ~`LOW_ACTIVE;
                 waiting_for_write <= `ZERO;
                 waiting_for_read <= `ZERO;
-                // ready <= `ONE;
             end
             `START_WRITE_STATE: begin
                 waiting_for_read <= `ZERO;
                 SRAM_WE_N <= ~`LOW_ACTIVE;
-                // ready <= `ZERO;
-                SRAM_DQ_reg <= write_data_reg;
-                SRAM_ADDR <= address_reg[18:2];
+                SRAM_DQ_reg <= write_data;
+                SRAM_ADDR <= address[18:2];
                 waiting_for_write <= `ONE;
             end
             `START_READ_STATE: begin
                 waiting_for_write <= `ZERO;
                 SRAM_WE_N <= ~`LOW_ACTIVE;
-                // ready <= `ZERO;
-                SRAM_DQ_reg <= write_data_reg;
-                SRAM_ADDR <= address_reg[18:2];
+                SRAM_DQ_reg <= write_data;
+                SRAM_ADDR <= address[18:2];
                 waiting_for_read <= `ONE;
             end
             `WAITING_1: begin
                 SRAM_WE_N <= ~`LOW_ACTIVE;
-                // ready <= `ZERO;
                 SRAM_ADDR <= SRAM_ADDR;
-                SRAM_DQ_reg <= write_data_reg;
+                SRAM_DQ_reg <= write_data;
             end
             `WAITING_2: begin
-                // ready <= `ZERO;
                 SRAM_WE_N <= waiting_for_write ? `LOW_ACTIVE: ~`LOW_ACTIVE;
                 SRAM_ADDR <= SRAM_ADDR;
-                SRAM_DQ_reg <= write_data_reg;
-                
+                SRAM_DQ_reg <= write_data;
             end
             `WAITING_3: begin
-            //    ready<= `ZERO;
-               SRAM_DQ_reg <= write_data_reg;
+               SRAM_DQ_reg <= write_data;
                read_data <= SRAM_DQ;
             end
             `END_WRITE_STATE: begin
-                // ready <= `ZERO;
-                SRAM_DQ_reg <= write_data_reg;
+                SRAM_DQ_reg <= write_data;
             end
             `END_READ_STATE: begin
-                // ready <= `ZERO;
                 read_data <= SRAM_DQ;
             end
             default:;
@@ -123,8 +110,6 @@ module SRAM_Controller(
             `IDLE_STATE: begin  
                 ns <= read_en ? `START_READ_STATE :
                 write_en ? `START_WRITE_STATE :`IDLE_STATE;
-                write_data_reg <= write_en? write_data: write_data_reg;
-                address_reg <= address;
             end
             `START_WRITE_STATE: begin
                 ns <= `WAITING_1;
@@ -145,20 +130,11 @@ module SRAM_Controller(
             end
             `END_WRITE_STATE: begin
                 ns <= `IDLE_STATE;
-                // ns <= read_en ? `START_READ_STATE :
-                // write_en ? `START_WRITE_STATE :`IDLE_STATE;
-                write_data_reg <= write_en? write_data: write_data_reg;
-                address_reg <= address;
             end
                 
             `END_READ_STATE:begin
                 ns <= `IDLE_STATE;
-                // ns <= read_en ? `START_READ_STATE :
-                // write_en ? `START_WRITE_STATE :`IDLE_STATE;
-                write_data_reg <= write_en? write_data: write_data_reg;
-                address_reg <= address;
             end
-                
             default:ns <= ns;
         endcase
     end

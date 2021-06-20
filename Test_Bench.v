@@ -16,7 +16,7 @@ module Test_Bench ();
     ARM_Module arm(
         .clk(clk),
         .rst(rst),
-        .forwarding_enable(`FORWARDING_NON_SELECT),
+        .forwarding_enable(`ZERO),
         .SRAM_DQ(SRAM_DQ),            
         .SRAM_ADDR(SRAM_ADDR),             
         .SRAM_UB_N(SRAM_UB_N),              

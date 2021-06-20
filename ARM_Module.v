@@ -32,7 +32,7 @@ module ARM_Module(
     wire[`REGISTER_FILE_LEN - 1 : 0] id_stage_val_r_n_out, id_stage_val_r_m_out;
     wire[`SHIFT_OPERAND_LEN - 1 : 0] id_stage_shift_operand_out;
     wire[`SIGNED_IMM_LEN - 1 : 0] id_stage_signed_imm_24_out;
-    wire[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] id_stage_dest_out, id_stage_src_1_out, id_stage_src_2_out;
+    wire[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] id_stage_dest_out, id_stage_src_1_out, id_stage_src_2_out, id_stage_src_2_before_reg_out;
     wire[`STATUS_REG_LEN - 1 : 0] id_stage_status_reg_out;
 
     // EXE Stage out wires :
@@ -101,6 +101,7 @@ module ARM_Module(
         .two_src(id_stage_two_src_out),
         .reg_file_src_1(id_stage_src_1_out),
         .reg_file_src_2(id_stage_src_2_out),
+        .reg_file_src_2_before_reg(id_stage_src_2_before_reg_out),
         .status_reg_out(id_stage_status_reg_out)
     );
 
@@ -108,11 +109,12 @@ module ARM_Module(
         .forwarding_enable(forwarding_enable),
         .two_src(id_stage_two_src_out),
         .r_n(if_stage_r_n),
-        .r_d(id_stage_src_2_out),
+        .r_d(id_stage_src_2_before_reg_out),
         .mem_dest(exe_stage_dest_out),
         .mem_wb_en(exe_stage_wb_en_out),
         .exe_dest(id_stage_dest_out),
         .exe_wb_en(id_stage_wb_en_out),
+        .exe_mem_r_en(id_stage_mem_r_en_out),
 
         .hazard(hazard)
     );

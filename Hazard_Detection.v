@@ -10,11 +10,12 @@ module Hazard_Detection (
     mem_wb_en,
     exe_dest,
     exe_wb_en,
+    exe_mem_r_en,
 
     hazard
 );
 
-    input two_src, mem_wb_en, exe_wb_en, forwarding_enable;
+    input two_src, mem_wb_en, exe_wb_en, forwarding_enable, exe_mem_r_en;
     input[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] r_n, r_d, mem_dest, exe_dest;
 
     output reg hazard;
@@ -28,9 +29,9 @@ module Hazard_Detection (
     always @(*) begin
         hazard = `ZERO;
         if(forwarding_enable) begin
-            if((r_n == exe_dest) && exe_wb_en)
+            if((r_n == exe_dest) && exe_mem_r_en)
                 hazard = `ONE;
-            else if ((r_d == exe_dest) && exe_wb_en && two_src)
+            else if ((r_d == exe_dest) && exe_mem_r_en && two_src)
                 hazard = `ONE;
         end
         else begin

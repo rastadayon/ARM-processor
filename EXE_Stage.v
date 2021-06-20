@@ -91,6 +91,8 @@ module EXE_Stage (
         .out(branch_addr)
     );
 
+    assign val_r_m = alu_mux_src2;
+
     // Adder branch_adder (
     //     .inp1(pc_in),
     //     .inp2({{(6){signed_imm_24[`SIGNED_IMM_LEN-1]}}, signed_imm_24, 2'b0}),

@@ -20,6 +20,8 @@ module ID_Stage_Reg (
     signed_imm_24_in,
     dest_in,
     status_reg_in,
+    src_1_in,
+    src_2_in,
 
     wb_en_out,
     mem_r_en_out,
@@ -34,7 +36,9 @@ module ID_Stage_Reg (
     shift_operand_out,
     signed_imm_24_out,
     dest_out,
-    status_reg_out
+    status_reg_out,
+    src_1_out,
+    src_2_out
 );
     input clk, rst, flush, wb_en_in, mem_r_en_in, mem_w_en_in, b_in, s_in, imm_in, freeze;
     input[`ADDRESS_LEN - 1 : 0] pc_in;
@@ -42,7 +46,7 @@ module ID_Stage_Reg (
     input[`REGISTER_FILE_LEN - 1 : 0] val_r_n_in, val_r_m_in;
     input[`SHIFT_OPERAND_LEN - 1 : 0] shift_operand_in;
     input[`SIGNED_IMM_LEN - 1 : 0] signed_imm_24_in;
-    input[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_in;
+    input[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_in, src_1_in, src_2_in;
     input[`STATUS_REG_LEN - 1 : 0] status_reg_in;
 
     output wb_en_out, mem_r_en_out, mem_w_en_out, b_out, s_out, imm_out;
@@ -51,7 +55,7 @@ module ID_Stage_Reg (
     output[`REGISTER_FILE_LEN - 1 : 0] val_r_n_out, val_r_m_out;
     output[`SHIFT_OPERAND_LEN - 1 : 0] shift_operand_out;
     output[`SIGNED_IMM_LEN - 1 : 0] signed_imm_24_out;
-    output[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_out;
+    output[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest_out, src_1_out, src_2_out;
     output[`STATUS_REG_LEN - 1 : 0] status_reg_out;
 
     Register #(`ONE) wb_en_reg(.clk(clk), .rst(rst), .ld(~freeze), .clr(flush), .inp(wb_en_in), .out(wb_en_out));
@@ -68,4 +72,7 @@ module ID_Stage_Reg (
     Register #(`SIGNED_IMM_LEN) signed_imm_24_reg(.clk(clk), .rst(rst), .ld(~freeze), .clr(flush), .inp(signed_imm_24_in), .out(signed_imm_24_out));
     Register #(`REGISTER_FILE_ADDRESS_LEN) dest_reg(.clk(clk), .rst(rst), .ld(~freeze), .clr(flush), .inp(dest_in), .out(dest_out));
     Register #(`STATUS_REG_LEN) status_reg_value_reg(.clk(clk), .rst(rst), .ld(~freeze), .clr(flush), .inp(status_reg_in), .out(status_reg_out));
+    Register #(`REGISTER_FILE_ADDRESS_LEN) src_1_reg(.clk(clk), .rst(rst), .ld(~freeze), .clr(flush), .inp(src_1_in), .out(src_1_out));
+    Register #(`REGISTER_FILE_ADDRESS_LEN) src_2_reg(.clk(clk), .rst(rst), .ld(~freeze), .clr(flush), .inp(src_2_in), .out(src_2_out));
+
 endmodule

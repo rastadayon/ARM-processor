@@ -11,11 +11,11 @@ output [inst_len-1:0]out;
 reg [word_len-1:0]memory[mem_size-1:0];
 parameter NOP = 32'b11100000000000000000000000000000;
 integer i;
-initial begin
-	for (i = 0; i < mem_size; i = i + 4) begin
-            {memory[i], memory[i+1], memory[i+2], memory[i+3]} = NOP;
-        end
-end
+// initial begin
+// 	for (i = 0; i < mem_size; i = i + 4) begin
+//             {memory[i], memory[i+1], memory[i+2], memory[i+3]} = NOP;
+//         end
+// end
 
 initial begin 
     {memory[0], memory[1], memory[2], memory[3]} = 32'b1110_00_1_1101_0_0000_0000_000000010100; //MOV    R0 ,#20     //R0 = 20
@@ -67,7 +67,7 @@ initial begin
 	{memory[168], memory[169], memory[170], memory[171]} = 32'b1110_01_0_0100_1_0000_0011_000000001000; //STR R3 ,[R0],#8 //R3 = 41
 	{memory[172], memory[173], memory[174], memory[175]} = 32'b1110_01_0_0100_1_0000_0100_000000001100; //STR R4 ,[R0],#12 //R4 = 8192
 	{memory[176], memory[177], memory[178], memory[179]} = 32'b1110_01_0_0100_1_0000_0101_000000010000; //STR R5 ,[R0],#16 //R5 = -123
-	{memory[180], memory[181], memory[182], memory[183]} = 32'b1110_01_0_0100_1_0000_0110_000000010100; //STR R6 ,[R0],#20 //R4 = 10
+	{memory[180], memory[181], memory[182], memory[183]} = 32'b1110_01_0_0100_1_0000_0110_000000010100; //STR R6 ,[R0],#20 //R6 = 9
 	{memory[184], memory[185], memory[186], memory[187]} = 32'b1110_10_1_0_111111111111111111111111 ; //B #-1	
 end
 

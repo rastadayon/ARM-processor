@@ -29,6 +29,7 @@ module ID_Stage_Module (
     two_src,
     reg_file_src_1,
     reg_file_src_2,
+    reg_file_src_2_before_reg,
     status_reg_out
 );
     input clk, rst, flush, wb_en_in, hazard;
@@ -44,7 +45,7 @@ module ID_Stage_Module (
     output [`REGISTER_FILE_LEN - 1 : 0] val_r_n, val_r_m;
     output [`SHIFT_OPERAND_LEN - 1 : 0] shift_operand;
     output [`SIGNED_IMM_LEN - 1 : 0] signed_imm_24;
-    output [`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest, reg_file_src_1, reg_file_src_2;
+    output [`REGISTER_FILE_ADDRESS_LEN - 1 : 0] dest, reg_file_src_1, reg_file_src_2, reg_file_src_2_before_reg;
     output [`STATUS_REG_LEN - 1 : 0] status_reg_out;
 
     wire id_stage_wb_en_out, id_stage_mem_r_en, id_stage_mem_w_en, id_stage_branch_taken, id_stage_status_reg_en, id_stage_imm, id_stage_two_src;
@@ -56,8 +57,7 @@ module ID_Stage_Module (
     wire [`ADDRESS_LEN - 1 : 0] id_stage_pc_out;
 
     assign two_src = id_stage_two_src;
-    assign reg_file_src_1 = id_stage_src_1;
-    assign reg_file_src_2 = id_stage_src_2;
+    assign reg_file_src_2_before_reg = id_stage_src_2;
 
     ID_Stage id_stage (
         .clk(clk),
@@ -105,6 +105,8 @@ module ID_Stage_Module (
         .signed_imm_24_in(id_stage_signed_imm_24),
         .dest_in(id_stage_dest),
         .status_reg_in(status_reg_in),
+        .src_1_in(id_stage_src_1),
+        .src_2_in(id_stage_src_2),
 
         .wb_en_out(wb_en_out),
         .mem_r_en_out(mem_r_en),
@@ -119,7 +121,9 @@ module ID_Stage_Module (
         .shift_operand_out(shift_operand),
         .signed_imm_24_out(signed_imm_24),
         .dest_out(dest),  
-        .status_reg_out(status_reg_out)     
+        .status_reg_out(status_reg_out), 
+        .src_1_out(reg_file_src_1),
+        .src_2_out(reg_file_src_2)   
     );
 
 endmodule

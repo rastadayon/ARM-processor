@@ -23,10 +23,12 @@ module Forwarding_Unit (
                 src1_select = `FORWARDING_MEM_SELECT;
             else if(wb_wb_en && (wb_dest == src1))
                 src1_select = `FORWARDING_WB_SELECT;
+            else src1_select = `FORWARDING_NON_SELECT;
             if(mem_wb_en && (mem_dest == src2))
                 src2_select = `FORWARDING_MEM_SELECT;
             else if(wb_wb_en && (wb_dest == src2))
                 src2_select = `FORWARDING_WB_SELECT;
+            else src2_select = `FORWARDING_NON_SELECT;
         end
         else begin
             src1_select = `FORWARDING_NON_SELECT;

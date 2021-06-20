@@ -1,3 +1,5 @@
+`include "Constants.v"
+
 module Test_Bench ();
 
     parameter CLK = 100;
@@ -5,7 +7,8 @@ module Test_Bench ();
     reg rst = 0;
     ARM_Module arm(
         .clk(clk),
-        .rst(rst)
+        .rst(rst),
+        .forwarding_enable(`ZERO)
     );
     always #CLK clk = ~clk;
     initial begin 

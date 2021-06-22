@@ -18,7 +18,7 @@ module ARM_Module(
     output SRAM_UB_N, SRAM_LB_N, SRAM_WE_N, SRAM_CE_N, SRAM_OE_N;
     output [`SRAM_ADDR_LEN-1:0] SRAM_ADDR;
     
-    inout[`SRAM_DATA_LEN-1:0] SRAM_DQ;
+    inout[2*`SRAM_DATA_LEN-1:0] SRAM_DQ;
 
     // IF Stage out wires :
     wire flush, freeze;

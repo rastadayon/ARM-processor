@@ -14,8 +14,8 @@ module SRAM (
     inout[2*`SRAM_DATA_LEN-1:0] sram_dq;
 
     reg [`SRAM_DATA_LEN-1:0] memory[0:`SRAM_SIZE-1];
-
-    assign #30 sram_dq = sram_we_en ? {memory[sram_addr], memory[sram_addr+1]}: `SRAM_DATA_LEN'bz;
+    assign #30 sram_dq[31:0] = sram_we_en ? memory[{sram_addr[`SRAM_ADDR_LEN-1:1], 1'b0}]: `SRAM_DATA_LEN'bz;
+    assign #30 sram_dq[63:32] = sram_we_en ? memory[{sram_addr[`SRAM_ADDR_LEN-1:1], 1'b1}]: `SRAM_DATA_LEN'bz;
 
     always @(posedge clk) begin
         if (~sram_we_en) begin

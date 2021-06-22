@@ -33,13 +33,13 @@ module SRAM_Controller(
     reg [2:0] ps, ns;
     reg waiting_for_write;
     reg waiting_for_read;
-    reg[`SRAM_DATA_LEN-1:0] SRAM_DQ_reg;
+    reg[2*`SRAM_DATA_LEN-1:0] SRAM_DQ_reg;
 
     assign SRAM_UB_N = `LOW_ACTIVE;
     assign SRAM_LB_N = `LOW_ACTIVE;
     assign SRAM_CE_N = `LOW_ACTIVE;
     assign SRAM_OE_N = `LOW_ACTIVE;
-    assign SRAM_DQ = waiting_for_write ? SRAM_DQ_reg: `SRAM_DATA_LEN'bz;
+    assign SRAM_DQ = waiting_for_write ? SRAM_DQ_reg: 64'bz;
     assign ready = (rst == `ONE)? `ONE: 
         (
             ((ps == `IDLE_STATE) && (read_en == `ONE || write_en == `ONE)) ? `ZERO
@@ -55,7 +55,10 @@ module SRAM_Controller(
         );
     
     always @(posedge clk , posedge rst)begin
-      if(rst) ps <= `IDLE_STATE;
+      if(rst) begin
+          ps <= `IDLE_STATE;
+          ns <= `IDLE_STATE;
+      end
       else ps <= ns;
     end
 
@@ -108,8 +111,11 @@ module SRAM_Controller(
     always @(ps, posedge write_en, posedge read_en)begin
         case(ps)
             `IDLE_STATE: begin  
+                $display("here");
                 ns <= read_en ? `START_READ_STATE :
                 write_en ? `START_WRITE_STATE :`IDLE_STATE;
+                SRAM_DQ_reg <= write_en? write_data:SRAM_DQ_reg;
+                SRAM_ADDR <= write_en? address[18:2]:SRAM_ADDR;
             end
             `START_WRITE_STATE: begin
                 ns <= `WAITING_1;

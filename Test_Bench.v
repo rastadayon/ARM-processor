@@ -5,7 +5,7 @@ module Test_Bench ();
 
     wire SRAM_UB_N, SRAM_LB_N, SRAM_WE_N, SRAM_CE_N, SRAM_OE_N;
     wire [`SRAM_ADDR_LEN-1:0] SRAM_ADDR;
-    wire[`SRAM_DATA_LEN-1:0] SRAM_DQ;
+    wire[2*`SRAM_DATA_LEN-1:0] SRAM_DQ;
 
     parameter CLK = 20;
     parameter SRAM_CLK = 40;

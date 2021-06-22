@@ -38,7 +38,7 @@ module MEM_Stage_Module (
     output ready, SRAM_UB_N, SRAM_LB_N, SRAM_WE_N, SRAM_CE_N, SRAM_OE_N;
     output [`SRAM_ADDR_LEN-1:0] SRAM_ADDR;
     
-    inout[`SRAM_DATA_LEN-1:0] SRAM_DQ;
+    inout[2*`SRAM_DATA_LEN-1:0] SRAM_DQ;
 
     wire[`REGISTER_FILE_LEN - 1 : 0] mem_stage_mem_res;
 

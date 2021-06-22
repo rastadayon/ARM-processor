@@ -19,12 +19,6 @@ module Hazard_Detection (
     input[`REGISTER_FILE_ADDRESS_LEN - 1 : 0] r_n, r_d, mem_dest, exe_dest;
 
     output reg hazard;
-    
-    // assign hazard = ((r_n == exe_dest) && (exe_wb_en == 1'b1)) ? 1'b1
-    //         : ((r_n == mem_dest) && (mem_wb_en == 1'b1)) ? 1'b1
-    //         : ((r_d == exe_dest) && (exe_wb_en == 1'b1) && (two_src == 1'b1)) ? 1'b1
-    //         : ((r_d == mem_dest) && (mem_wb_en == 1'b1) && (two_src == 1'b1)) ? 1'b1
-    //         : 1'b0;
 
     always @(*) begin
         hazard = `ZERO;

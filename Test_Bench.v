@@ -36,7 +36,7 @@ module Test_Bench ();
     always #SRAM_CLK sram_clk = ~sram_clk;
     initial begin 
         #(CLK) rst = 1;
-        #(3*CLK) rst = 0;
+        #(5*CLK) rst = 0;
         #(2000*CLK)
         $stop;
     end

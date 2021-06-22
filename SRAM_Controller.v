@@ -22,9 +22,9 @@ module SRAM_Controller(
     input[`ADDRESS_LEN-1:0] address;
     input[`REGISTER_FILE_LEN-1:0] write_data;
 
-    inout[`SRAM_DATA_LEN-1:0] SRAM_DQ;
+    inout[2*`SRAM_DATA_LEN-1:0] SRAM_DQ;
 
-    output reg[`REGISTER_FILE_LEN-1:0] read_data;
+    output reg[2*`REGISTER_FILE_LEN-1:0] read_data;
     output reg[`SRAM_ADDR_LEN-1:0] SRAM_ADDR;
     output SRAM_UB_N, SRAM_LB_N, SRAM_CE_N, SRAM_OE_N;
     output reg SRAM_WE_N;

@@ -30,7 +30,7 @@ module SRAM_Controller(
     output reg SRAM_WE_N;
     output ready;
 
-    reg [2:0] ps, ns;
+    reg [3:0] ps, ns;
     reg waiting_for_write;
     reg waiting_for_read;
     reg[2*`SRAM_DATA_LEN-1:0] SRAM_DQ_reg;
@@ -49,10 +49,15 @@ module SRAM_Controller(
             :(ps == `WAITING_1) ? `ZERO
             :(ps == `WAITING_2) ? `ZERO
             :(ps == `WAITING_3) ? `ZERO
+            :(ps == `WAITING_4) ? `ZERO
             :(ps == `END_WRITE_STATE) ? `ONE 
             :(ps == `END_READ_STATE) ? `ONE 
             :ready
         );
+    // assign ready = (ps == S_READ && counter != `SRAM_WAIT_CYCLES) ? 1'b0 :
+    //                (ps == S_WRITE && counter != `SRAM_WAIT_CYCLES) ? 1'b0 :
+    //                ((ps == S_IDLE) && (read_en || write_en)) ? 1'b0 :
+    //                1'b1;
     
     always @(posedge clk , posedge rst)begin
       if(rst) begin
@@ -94,6 +99,11 @@ module SRAM_Controller(
                 SRAM_DQ_reg <= write_data;
             end
             `WAITING_3: begin
+                SRAM_WE_N <= waiting_for_write ? `LOW_ACTIVE: ~`LOW_ACTIVE;
+                SRAM_ADDR <= SRAM_ADDR;
+                SRAM_DQ_reg <= write_data;
+            end
+            `WAITING_4: begin
                SRAM_DQ_reg <= write_data;
                read_data <= SRAM_DQ;
             end
@@ -130,6 +140,9 @@ module SRAM_Controller(
                 ns <= `WAITING_3;
             end
             `WAITING_3: begin
+                ns <= `WAITING_4;
+            end
+            `WAITING_4: begin
                 ns <= waiting_for_write ? `END_WRITE_STATE :
                 waiting_for_read ? `END_READ_STATE :
                 ns;

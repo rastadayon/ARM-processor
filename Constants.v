@@ -101,8 +101,9 @@
 `define WAITING_1 3
 `define WAITING_2 4
 `define WAITING_3 5
-`define END_WRITE_STATE 6
-`define END_READ_STATE 7
+`define WAITING_4 6
+`define END_WRITE_STATE 7
+`define END_READ_STATE 8
 
 //Forwarding
 `define FORWARDING_MEM_SELECT 2'b01

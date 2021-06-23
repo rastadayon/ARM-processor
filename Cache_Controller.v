@@ -55,7 +55,7 @@ always @(posedge clk , posedge rst)begin
 // assign ready = ps == `IDLE_STATE ? `ONE : `ZERO;
 
 assign ready = (ps == `IDLE_STATE && (read_en || write_en)) ? `ZERO :
-                (ps == `END_STATE) ? `ONE:
+                // (ns == `END_STATE) ? `ONE:
                 (ps == `IDLE_STATE) ? `ONE: ready;
 
 assign read_data = (ps == `END_STATE && read_en && cache_hit) ? cache_read_data : 
@@ -81,7 +81,7 @@ assign cache_invalidation = (ns == `CACHE_INVALID_STATE) ? `ONE: `ZERO;
 always @(ps, write_en, read_en, cache_hit, sram_ready) begin
     case(ps)
         `IDLE_STATE: begin  
-            ns <= read_en && cache_hit ? `END_STATE :
+            ns <= read_en && cache_hit ? `IDLE_STATE :
                   read_en ? `MEM_READ_STATE:
                   write_en ? `MEM_WRITE_STATE :
                   `IDLE_STATE;
@@ -91,13 +91,15 @@ always @(ps, write_en, read_en, cache_hit, sram_ready) begin
             ns <= sram_ready ? `CACHE_WRITE_STATE : `MEM_READ_STATE;
         end
         `CACHE_WRITE_STATE: begin
-            ns <= `END_STATE;
+            // ns <= `END_STATE;
+            ns <= `IDLE_STATE;
         end
         `MEM_WRITE_STATE: begin
             ns <= sram_ready ? `CACHE_INVALID_STATE : `MEM_WRITE_STATE;
         end
         `CACHE_INVALID_STATE: begin
-            ns <= `END_STATE;
+            // ns <= `END_STATE;
+            ns <= `IDLE_STATE;
         end
         `END_STATE: begin
             ns <= `IDLE_STATE;

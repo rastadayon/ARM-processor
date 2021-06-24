@@ -82,7 +82,7 @@ assign cache_write_data = sram_read_data;
 
 assign cache_write_en = (ps == `MEM_READ_STATE && sram_ready == `ONE) ? `ONE: `ZERO;
 
-assign cache_invalidation = (ps == `MEM_WRITE_STATE) ? `ONE: `ZERO;
+assign cache_invalidation = (ns == `CACHE_INVALID_STATE) ? `ONE: `ZERO;
 
 always @(ps, write_en, read_en, cache_hit, sram_ready) begin
     case(ps)
